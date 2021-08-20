@@ -1,0 +1,149 @@
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 100px;
+    height: 100%;
+}
+
+.navbar > .navlink-container {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    width: fit-content;
+    gap: 40px;
+}
+
+.navbar > .navlink-container > a > .navlink {
+    font-family: "Termina";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #262D27;
+}
+
+.navbar > .auth-link > .navlink {
+    font-family: "Termina";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #262D27;
+    position: relative;
+    cursor: pointer;
+}
+
+.navbar > .auth-link > .navlink > .id {
+    font-family: "Termina";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #ffffff;
+    padding: 10px 20px;
+    background: #457373;
+    cursor: pointer;
+}
+
+.navbar > .mobile-menu {
+    display: none;
+}
+
+.navbar > .auth-link > .navlink > .menu {
+    position: absolute;
+    background: #262D27;
+    opacity: 0;
+    z-index: -1;
+    transition: all 0.2s ease;
+}
+
+.navbar > .auth-link > .navlink > .menu.active > a {
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.navbar > .auth-link > .navlink > .menu.active > p {
+    text-decoration: none;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+
+.navbar > .auth-link > .navlink > .menu.active {
+    position: absolute;
+    background: #457373;
+    top: 43px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    padding: 14px;
+    left: 0;
+    z-index: 3;
+    opacity: 1;
+}
+
+
+@media screen and (max-width: 950px) {
+    .navbar {
+        padding: 16px 10px;
+    }
+
+    .navbar > .brand-logo > img {
+        width: 120px;
+    }
+
+    .navbar > .navlink-container {
+        display: none;
+    }
+
+    .navbar > .auth-link {
+        display: none;
+    }
+
+    .navbar > .mobile-menu {
+        display: block;
+    }
+
+    .navbar > .mobile-menu > img {
+        cursor: pointer;
+        width: 30px;
+    }
+
+    .navbar > .mobile-menu > .navlink-container{
+        left: 0;
+        position: absolute;
+        width: 100%;
+        background-color: white;
+        height: 100%;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        z-index: -1;
+    }
+
+    .navbar > .mobile-menu > .navlink-container > a {
+        margin: 16px 0px;
+    }
+
+    .navbar > .mobile-menu > .navlink-container > a > .navlink > p{
+        font-family: Termina;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 22px;
+        color: #262D27;
+
+    }
+
+    .navbar > .mobile-menu > .navlink-container > img {
+        width: 24px;
+        margin: 16px 0px;
+    }
+}
+
