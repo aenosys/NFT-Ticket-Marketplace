@@ -15,15 +15,10 @@ const nftSchema = new mongoose.Schema(
           type: Number
         },
         category: {
-            type: ObjectId,
-            ref: "Category",
-            required: true
-        },
-        name:{
             type: String,
             required: true
         },
-        description:{
+        name:{
             type: String,
             required: true
         },
