@@ -16,7 +16,7 @@
   font-family: sans-serif;
 }
 
-body{
+body, html{
   background-color: var(--body-bg);
   height: 100%;
 }

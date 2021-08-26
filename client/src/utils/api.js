@@ -79,5 +79,6 @@ export{
     mint,
     listTokens,
     putOnSale,
-    buy
+    buy,
+    getAccount,
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
+import {Switch, Route} from 'react-router-dom'
 import './App.css';
 import Category from './components/Category';
 import Home from './components/Home';
@@ -12,7 +12,6 @@ function App() {
   return (
     <div>
       <Navbar/>
-      <Router>
         <Switch>
           <Route exact path='/'  component={Home}/>
           <Route exact path='/mint' component={Mint} />
@@ -20,7 +19,6 @@ function App() {
           <Route exact path='/token'  component={Token}/>
           <Route exact path='/category' component={Category} />
         </Switch>
-      </Router>
     </div>
   );
 }
