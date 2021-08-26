@@ -14,11 +14,11 @@ function App() {
       <Navbar/>
       <Router>
         <Switch>
-          <Route path='/' exact component={Home}/>
-          <Route apth='/mint' exact component={Mint} />
-          <Route path='/user' exact component={User}/>
-          <Route path='/token' exact component={Token}/>
-          <Route path='/category' exact component={Category} />
+          <Route exact path='/'  component={Home}/>
+          <Route exact path='/mint' component={Mint} />
+          <Route exact path='/user' component={User}/>
+          <Route exact path='/token'  component={Token}/>
+          <Route exact path='/category' component={Category} />
         </Switch>
       </Router>
     </div>

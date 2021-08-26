@@ -80,7 +80,7 @@ function Token() {
                 let val = parseFloat(price);
                 val = val * 1e18;
                 let bigPrice = new BigNumber(val)
-                await mint(bigPrice.toString(), metadata.url)
+                await mint(metadata.url, bigPrice.toString())
                 setIsUploading(false)
                 removeFile();
                 setTitle("")
