@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import axios from 'axios'
 
 function Category() {
 
@@ -10,6 +11,14 @@ function Category() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+          axios.post('http://localhost:8080/api/category/create', category)
+          console.log(category)
+          .then((response) => {
+            console.log(response.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     return (
