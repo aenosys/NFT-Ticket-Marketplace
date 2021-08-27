@@ -62,7 +62,7 @@ export default function Navbar() {
         <div className="navbar">
             <Link to="/">
                 <div className="brand-logo">
-                    <img src={mainlogo} alt="tapir" />
+                    <p>Ticket Markeplace</p>
                 </div>
             </Link>
             <div className="navlink-container">
@@ -74,6 +74,11 @@ export default function Navbar() {
                 <Link to="/mint">
                     <div className="navlink">
                         <p>Mint</p>
+                    </div>
+                </Link>
+                <Link to="/mytoken">
+                    <div className="navlink">
+                        <p>My Tokens</p>
                     </div>
                 </Link>
             </div>

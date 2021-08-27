@@ -10,7 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
 import Web3 from 'web3'
-import { buy, sold } from '../utils/api';
+import { buy, sold, putOnSale } from '../utils/api';
+import {useLocation} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,9 +42,11 @@ const Cards = ({ list,i }) => {
 
     const classes = useStyles();
 
+    const location = useLocation();
+
     const isSold = async () => {
       const resp = await sold(list.tokenId)
-      console.log("is on sale : ", resp)
+      console.log("is sold : ", resp)
       setSold(resp);
     }
 
@@ -106,13 +109,23 @@ const Cards = ({ list,i }) => {
           </CardContent> */}
           <CardContent>
             {
-              Sold !== undefined && Sold ?
+              location.pathname === "/mytoken" ?
+              (
+                Sold !== undefined && Sold ?
+                <Typography className="text-center" onClick={() => {putOnSale(list.tokenId)}}>
+                  <div className="btn-primary">Put On Sale</div>
+                </Typography>:
+                <Typography className="text-center">
+                  <div className="btn-danger">On Sale</div>
+                </Typography>
+              ):
+              (Sold !== undefined && Sold ?
               <Typography className="text-center">
                 <div className="btn-danger">Sold !</div>
               </Typography>:
               <Typography className="text-center">
                 <div className="btn-primary" onClick={() => {buy(list.tokenId)}}>Buy</div>
-              </Typography>
+              </Typography>)
             }
           </CardContent>
         </Card>

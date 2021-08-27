@@ -64,9 +64,10 @@ const putOnSale = async(id) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
     let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
-    await ticket.methods.putOnSale(id).call({from: account})
+    await ticket.methods.putOnSale(id).send({from: account[0]})
 }
 const sold = async(id) => {
+	window.web3 = new Web3(window.ethereum)
     let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
     const resp = await ticket.methods.sold(id).call()
     return resp
@@ -77,6 +78,12 @@ const listTokens = async() => {
     return resp.data;
 };
 
+const listMyToken = async () => {
+    const account = await getAccount()
+    const resp = await axios.get(`http://localhost:8080/api/nft/${account[0]}`)
+    return resp.data;
+}
+
 export{
     mint,
     listTokens,
@@ -84,4 +91,5 @@ export{
     buy,
     getAccount,
     sold,
+    listMyToken,
 }

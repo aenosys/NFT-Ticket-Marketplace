@@ -13,22 +13,37 @@ function Home() {
         setList([...resp])
     }
 
+    const isLoading = () => {
+        return (
+            <div class="spinner" style={{height: '100%'}}>
+                <div class="d-flex justify-content-center">
+                  <div class="spinner-border text-light" role="status">
+                  </div>
+                </div> 
+            </div>        
+        )
+    }
+
     useEffect(() => {
         getList()
     }, [])
 
     return (
-        <div>
+        <div style={{height: 'calc(100% - 80px)'}}>
             <h1 className="text-center" style={{color: 'white'}}>Home</h1>
-            <Grid container spacing={2} style={{gap: '20px', justifyContent: 'center'}} >
-                {
-                    list && list.map((list, i) => {
-                        return(
-                            <Cards list={list} i={i} />
-                        ) 
-                    })
-                }
-            </Grid>
+            {
+                list.length === 0 ?
+                isLoading():
+                <Grid container spacing={2} style={{gap: '20px', justifyContent: 'center'}} >
+                    {
+                        list && list.map((list, i) => {
+                            return(
+                                <Cards list={list} i={i} />
+                            ) 
+                        })
+                    }
+                </Grid>
+            }
         </div>
     )
 }

@@ -7,10 +7,11 @@ import Mint from './components/Mint';
 import Navbar from './components/Navbar/Navbar'
 import Token from './components/Token';
 import User from './components/User';
+import MyTokens from './components/MyTokens';
 
 function App() {
   return (
-    <div>
+    <div style={{height: '100%', display: 'flex', flexDirection: 'column'}}>
       <Navbar/>
         <Switch>
           <Route exact path='/'  component={Home}/>
@@ -18,6 +19,7 @@ function App() {
           <Route exact path='/user' component={User}/>
           <Route exact path='/token'  component={Token}/>
           <Route exact path='/category' component={Category} />
+          <Route exact path='/mytoken' component={MyTokens} />
         </Switch>
     </div>
   );
