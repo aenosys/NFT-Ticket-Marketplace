@@ -24,3 +24,13 @@ exports.filter = async(req,res) => {
         return res.json({data: { _id,  name, category, photo, price, ownerAddress, tokenId }});
     });
 }
+
+exports.getToken = (req, res) => {
+    const address = req.params.address
+    NFT.find({ownerAddress: address}, (error, data) => {
+        if(error){
+            console.log(error)
+        }
+        res.send(data)
+    })
+};
