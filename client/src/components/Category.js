@@ -11,8 +11,8 @@ function Category() {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-          axios.post('http://localhost:8080/api/category/create', category)
           console.log(category)
+          axios.post('http://localhost:8080/api/category/create', category)
           .then((response) => {
             console.log(response.data);
           })

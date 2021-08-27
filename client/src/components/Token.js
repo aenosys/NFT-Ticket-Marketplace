@@ -4,6 +4,7 @@ import './token.css'
 import { NFTStorage } from 'nft.storage'
 import { mint } from '../utils/api'
 import BigNumber from 'bignumber.js';
+import axios from 'axios'
 
 function Token() {
     const [preview, setPreview] = useState()
@@ -13,11 +14,23 @@ function Token() {
     const [description, setDescription] = useState()
     const [isUploading, setIsUploading] = useState(false)
     const [price, setPrice] = useState()
+    const [presentCategories, setPresentCategories] = useState([]);
 
     const nameWarning = useRef()
     const descriptionWarning = useRef()
     const createTokenButton = useRef()
     const tokenPrice = useRef()
+
+    const getCategories = async () => {
+        const resp = await axios.get("http://localhost:8080/api/categories/")
+        console.log("the categories are :", resp.data)
+        setPresentCategories([...resp.data])
+    }
+
+
+    useEffect(() => {
+        getCategories()
+    }, [])
     
 
     const removeFile = () => {
@@ -153,7 +166,16 @@ function Token() {
                 </div>
                 <div className="token-info-input">
                     <label>Description</label>
-                    <input type="text" value={description} onChange={(e) => {setDescription(e.target.value)}} />
+                    {/* <input type="text" value={description} onChange={(e) => {setDescription(e.target.value)}} /> */}
+                    <select value={description} style={{marginTop: '20px'}} onChange={(e) => {setDescription(e.target.value)}}>
+                        {
+                            presentCategories.length > 0 && presentCategories.map((categ) => {
+                                return(
+                                    <option value={categ.name}>{categ.name}</option>
+                                )
+                            })
+                        }
+                    </select>
                     <p className="input-warning" ref={descriptionWarning}>* Enter Description</p>
                 </div>
                 <div className="token-info-input">

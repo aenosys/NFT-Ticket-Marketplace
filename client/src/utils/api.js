@@ -46,33 +46,35 @@ const getAccount = async () => {
 const mint = async(string_uri, price) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x1DA8ef0B5128c91D48A819088F8F3d707ab93B19")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
     await ticket.methods.mintToken(string_uri, price).send({from: account[0]})
 }
 
 const buy = async(id) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x1DA8ef0B5128c91D48A819088F8F3d707ab93B19")
-    const price = await ticket.methods.prices(id).call({from:account})
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    console.log("the id is :", id, " contaract :", ticket)
+    const price = await ticket.methods.prices(id).call()
+    console.log("the price is :", price)
     await ticket.methods.buy(id).send({from: account[0], value: price})
 }
 
 const putOnSale = async(id) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x1DA8ef0B5128c91D48A819088F8F3d707ab93B19")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
     await ticket.methods.putOnSale(id).call({from: account})
+}
+const sold = async(id) => {
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    const resp = await ticket.methods.sold(id).call()
+    return resp
 }
 
 const listTokens = async() => {
-   axios.get('http://localhost:8080/api/list')
-   .then((data) => {
-     console.log(data)
-   })
-   .catch((error) => {
-       console.log(error)
-   })
+   const resp = await axios.get('http://localhost:8080/api/list')
+    return resp.data;
 };
 
 export{
@@ -81,4 +83,5 @@ export{
     putOnSale,
     buy,
     getAccount,
+    sold,
 }

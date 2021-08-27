@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import moment from 'moment';
 import { makeStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
@@ -9,6 +9,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import Grid from '@material-ui/core/Grid';
+import Web3 from 'web3'
+import { buy, sold } from '../utils/api';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -35,8 +37,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Cards = ({ list,i }) => {
     // const date = moment().format('MMMM Do YYYY, h:mm:ss a');
+    const [Sold, setSold] = useState()
 
     const classes = useStyles();
+
+    const isSold = async () => {
+      const resp = await sold(list.tokenId)
+      console.log("is on sale : ", resp)
+      setSold(resp);
+    }
+
+    useEffect(() => {
+      isSold()
+      window.web3 = new Web3(window.ethereum)
+    }, [])
 
     return (
         <>
@@ -53,7 +67,7 @@ const Cards = ({ list,i }) => {
           />
           <CardMedia
             className={classes.media}
-            image={list}
+            image={`https://${list.image.split("/")[2]}.ipfs.dweb.link/${list.image.split("/")[3]}`}
           />
           <CardContent>
             <Typography variant="body1" color="textSecondary" component="p">
@@ -62,7 +76,7 @@ const Cards = ({ list,i }) => {
           </CardContent>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              Price: {list.price ? list.price : "Not Available"}
+              Price: {list.price ? new Web3(window.ethereum).utils.fromWei(list.price.toString(), 'ether') : "Not Available"} MATIC
             </Typography>
           </CardContent>
           <CardContent>
@@ -91,9 +105,15 @@ const Cards = ({ list,i }) => {
             </Typography>
           </CardContent> */}
           <CardContent>
-            <Typography className="text-center">
-                <button>Buy</button>
-            </Typography>
+            {
+              Sold !== undefined && Sold ?
+              <Typography className="text-center">
+                <div className="btn-danger">Sold !</div>
+              </Typography>:
+              <Typography className="text-center">
+                <div className="btn-primary" onClick={() => {buy(list.tokenId)}}>Buy</div>
+              </Typography>
+            }
           </CardContent>
         </Card>
         </Grid>
