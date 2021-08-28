@@ -92,4 +92,5 @@ export{
     getAccount,
     sold,
     listMyToken,
+    category
 }
