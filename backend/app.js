@@ -8,7 +8,7 @@ const expressValidator = require('express-validator');
 require('dotenv').config();
 
 const Web3 = require("web3");
-const web3ProviderUrl = "wss://ws-matic-mumbai.chainstacklabs.com";
+const web3ProviderUrl = "wss://rpc-mumbai.maticvigil.com/ws/v1/e89672403f5ac0e38a569e65a6d97a640beb9d10";
 const web3 = new Web3(new Web3.providers.WebsocketProvider(web3ProviderUrl));
 const Ticket = require("./ABI/Ticket.json");
 const NFT = require("./models/nft")

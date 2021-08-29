@@ -29,13 +29,17 @@ export default function MyTokens() {
     }
 
     return (
-        <div style={{height: 'calc(100% - 80px)'}}>
-            <h1 className="text-center" style={{color: 'white'}}>My Tokens</h1>
+        <div className="container" style={{height: 'calc(100% - 80px)'}}>
+            <h1 className="text-center mt-4" style={{color: 'white'}}>My Tokens</h1>
+            <hr className="bg-light"/>
+            <br/>
             <Grid container spacing={2} style={{gap: '20px', justifyContent: 'center'}} >
                 {
                     list.length === 0 ?
-                    isLoading():
-                    <Grid container spacing={2} style={{gap: '20px', justifyContent: 'center'}} >
+                    <div>
+                        <h3 className="mt-4 text-white">No Token Available</h3>
+                    </div>:
+                    <Grid container spacing={2} style={{gap: '20px', justifyContent: 'left'}} >
                         {
                             list && list.map((list, i) => {
                                 return(

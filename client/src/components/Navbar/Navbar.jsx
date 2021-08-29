@@ -81,6 +81,7 @@ export default function Navbar() {
                         <p>My Tokens</p>
                     </div>
                 </Link>
+                
             </div>
             <div className="auth-link">
                 {
@@ -96,7 +97,7 @@ export default function Navbar() {
                             <p onClick={handleDisconnect}>Disconnect</p>
                         </div>
                     </div>:
-                    <div className="navlink" onClick={() => {connectTOWallet()}}>
+                    <div className="navlink text-white" onClick={() => {connectTOWallet()}}>
                         <p>Login</p>
                     </div>
                 }

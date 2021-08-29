@@ -5,6 +5,7 @@ import { NFTStorage } from 'nft.storage'
 import { mint } from '../utils/api'
 import BigNumber from 'bignumber.js';
 import axios from 'axios'
+import { Redirect } from 'react-router-dom'
 
 function Token() {
     const [preview, setPreview] = useState()
@@ -14,6 +15,7 @@ function Token() {
     const [description, setDescription] = useState()
     const [isUploading, setIsUploading] = useState(false)
     const [price, setPrice] = useState()
+    const [redirect, setRedirect] = useState(false)
     const [presentCategories, setPresentCategories] = useState([]);
 
     const nameWarning = useRef()
@@ -57,7 +59,6 @@ function Token() {
     }
 
     const createTokenHandler = async () => {
-
         if(title !== undefined){
             if(title.length > 0) {
                 nameWarning.current.style.display = 'none'
@@ -98,6 +99,7 @@ function Token() {
                 removeFile();
                 setTitle("")
                 setDescription("")
+                setRedirect(true)
             } catch (err) {
                 console.log("we got a error :", err)
                 setIsUploading(false)
@@ -133,11 +135,31 @@ function Token() {
 
     }, [title, description])
 
+    const isLoading = () => {
+            return (
+                <div class="spinner mt-4" style={{height: '100%'}}>
+                    <div class="d-flex justify-content-center">
+                      <div class="spinner-border text-white" role="status">
+                      </div>
+                    </div> 
+                </div>        
+            )
+     }
+
+     const shouldRedirect = redirect => {
+        if (redirect) {
+          return <Redirect to="/" />;
+        }
+      };
+
     return (
         <div className="create-token-container">
-            <h1>Create Token</h1>
-
-            <div className="file-upload-container">
+            <h1 className="mt-4 text-center">Mint Ticket</h1>
+            <small className="text-danger">*Only Admin can mint tickets*</small>
+            {isUploading === true ? isLoading() : 
+              <>
+              {shouldRedirect(redirect)}
+                 <div className="file-upload-container">
                 <h2>Upload File</h2>
                 <div className="file-upload">
                     {
@@ -147,7 +169,7 @@ function Token() {
                             <img src={close} className="close" onClick={removeFile} alt="close" />
                         </div> :
                         <>
-                            <input type="file" id="file-input" name="file" accept=".jpg,.png,.gif,.mp4" className="custom-file-input" onChange={fileUploadHandler} />
+                            <input required type="file" id="file-input" name="file" accept=".jpg,.png,.gif,.mp4" className="custom-file-input" onChange={fileUploadHandler} />
                             <p>{ isFilePicked && selectedFile.name}</p>
                             <p>PNG, JPG, GIF, MP4</p>
                             <label htmlFor="file-input">
@@ -161,13 +183,14 @@ function Token() {
             <div className="token-info">
                 <div className="token-info-input">
                     <label>Title</label>
-                    <input type="text" value={title} onChange={(e) => {setTitle(e.target.value)}} />
+                    <input required type="text" value={title} onChange={(e) => {setTitle(e.target.value)}} />
                     <p className="input-warning" ref={nameWarning}>* Enter Title</p>
                 </div>
                 <div className="token-info-input">
-                    <label>Description</label>
+                    <label>Event Category</label>
                     {/* <input type="text" value={description} onChange={(e) => {setDescription(e.target.value)}} /> */}
-                    <select value={description} style={{marginTop: '20px'}} onChange={(e) => {setDescription(e.target.value)}}>
+                    <select required value={description} style={{marginTop: '20px'}} onChange={(e) => {setDescription(e.target.value)}}>
+                        <option>Please Select</option>
                         {
                             presentCategories.length > 0 && presentCategories.map((categ) => {
                                 return(
@@ -176,7 +199,7 @@ function Token() {
                             })
                         }
                     </select>
-                    <p className="input-warning" ref={descriptionWarning}>* Enter Description</p>
+                    <p className="input-warning" ref={descriptionWarning}>* Select Event</p>
                 </div>
                 <div className="token-info-input">
                     <label>Price</label>
@@ -186,8 +209,10 @@ function Token() {
             </div>
 
             <div className="create-token-button" ref={createTokenButton} onClick={createTokenHandler} >
-                <p>Create Token</p>
+                <p>Mint</p>
             </div>
+              </>
+            }
         </div>
     )
 }

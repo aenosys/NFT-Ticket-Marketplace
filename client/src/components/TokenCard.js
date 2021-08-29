@@ -13,6 +13,7 @@ import Web3 from 'web3'
 import { buy, sold, putOnSale } from '../utils/api';
 import {useLocation} from 'react-router-dom';
 import {Link} from 'react-router-dom'
+import QRCode from 'qrcode.react'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-const Cards = ({ list,i }) => {
+const TokenCard = ({ ticket,i }) => {
     // const date = moment().format('MMMM Do YYYY, h:mm:ss a');
     const [Sold, setSold] = useState()
 
@@ -46,7 +47,7 @@ const Cards = ({ list,i }) => {
     const location = useLocation();
 
     const isSold = async () => {
-      const resp = await sold(list.tokenId)
+      const resp = await sold(ticket.tokenId)
       console.log("is sold : ", resp)
       setSold(resp);
     }
@@ -63,34 +64,39 @@ const Cards = ({ list,i }) => {
           <CardHeader
             avatar={
               <Avatar aria-label="" className={classes.avatar}>
-                 {list.tokenId}
+                 {ticket.tokenId}
               </Avatar>
             }
-            title={list.name}
-            subheader={moment(list.createdAt).fromNow()}
+            title={ticket.name}
+            subheader={moment(ticket.createdAt).fromNow()}
           />
           <CardMedia
             className={classes.media}
-            image={`https://${list.image.split("/")[2]}.ipfs.dweb.link/${list.image.split("/")[3]}`}
+            image={`https://${ticket.image.split("/")[2]}.ipfs.dweb.link/${ticket.image.split("/")[3]}`}
           />
           <CardContent>
             <Typography variant="body1" color="textSecondary" component="p">
-             Category: {list.category ? list.category: "Not Available"}
+             Category: {ticket.category ? ticket.category: "Not Available"}
             </Typography>
           </CardContent>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              Price: {list.price ? new Web3(window.ethereum).utils.fromWei(list.price.toString(), 'ether') : "Not Available"} MATIC
+              Price: {ticket.price ? new Web3(window.ethereum).utils.fromWei(ticket.price.toString(), 'ether') : "Not Available"} MATIC
             </Typography>
           </CardContent>
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="p">
-              Owner Address: {list.ownerAddress ? list.ownerAddress : "Not Available"}
+              Owner Address: {ticket.ownerAddress ? ticket.ownerAddress : "Not Available"}
+            </Typography>
+          </CardContent>
+          <CardContent classname="text-center">
+            <Typography variant="body2" color="textSecondary" component="p">
+              <QRCode value={ticket.tokenId}/>
             </Typography>
           </CardContent>
           <CardContent>
             <Typography className="text-center" variant="body2" color="textSecondary" component="p">
-              <Link to={`/token/${list.tokenId}/${list.category}`}>
+              <Link to={`/token/${ticket.tokenId}`}>
               <div className="btn btn-success">
                 View Ticket
               </div>
@@ -102,7 +108,7 @@ const Cards = ({ list,i }) => {
               location.pathname === "/mytoken" ?
               (
                 Sold !== undefined && Sold ?
-                <Typography className="text-center" onClick={() => {putOnSale(list.tokenId)}}>
+                <Typography className="text-center" onClick={() => {putOnSale(ticket.tokenId)}}>
                   <div className=" btn btn-primary">Put On Sale</div>
                 </Typography>:
                 <Typography className="text-center">
@@ -114,7 +120,7 @@ const Cards = ({ list,i }) => {
                 <div className="btn btn-danger">Sold !</div>
               </Typography>:
               <Typography className="text-center">
-                <div className="btn btn-primary" onClick={() => {buy(list.tokenId)}}>Buy</div>
+                <div className="btn btn-primary" onClick={() => {buy(ticket.tokenId)}}>Buy</div>
               </Typography>)
             }
           </CardContent>
@@ -124,4 +130,4 @@ const Cards = ({ list,i }) => {
       );
 }
 
-export default Cards;
+export default TokenCard;

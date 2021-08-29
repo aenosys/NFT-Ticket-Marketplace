@@ -12,16 +12,16 @@ exports.read = (req, res) => {
 };
 
 exports.filter = async(req,res) => {
-    const { category } = req.body;
-    console.log(req.body)
-    await NFT.findOne({ category }, (err, data) => {
-        if (err || !data) {
+    const { name } = req.body;
+    console.log(name)
+    await NFT.findOne({ category: name}, (err, nft) => {
+        if (err || !nft) {
             return res.status(400).json({
-                error: 'Data not found'
+                error: 'NFT not found'
             });
         }
-        const { _id, name, category, photo, price, ownerAddress, tokenId} = data;
-        return res.json({data: { _id,  name, category, photo, price, ownerAddress, tokenId }});
+        const { _id, tokenId, price, ownerAddress, category, image, name} = nft;
+        return res.json({nft: { _id, tokenId, price, ownerAddress, category, image, name}});
     });
 }
 
@@ -34,3 +34,25 @@ exports.getToken = (req, res) => {
         res.send(data)
     })
 };
+
+exports.getData = (req, res) => {
+    const id = req.params.id
+    NFT.find({tokenId: id}, (error, data) => {
+        if(error){
+            console.log(error)
+        }
+        res.send(data)
+    })
+};
+
+exports.relatedNft = (req, res) => {
+    const category = req.params.category
+    NFT.find({category: category}, (error, data) => {
+        if(error){
+            console.log(error)
+        }
+        res.send(data)
+    })
+};
+
+

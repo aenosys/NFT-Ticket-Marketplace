@@ -1,4 +1,4 @@
-import Ticket from '../abi/Ticket.json'
+import Ticket from '../ABI/Ticket.json'
 import Web3 from 'web3'
 import axios from 'axios'
 
@@ -8,7 +8,7 @@ const getAccount = async () => {
     if (window.ethereum.isMetaMask) {
         console.log("we are in the fi conditoin")
         const data = [{
-            chainId: '0x13881',
+            chainId: '80001',
             chainName: 'Matic Network',
             nativeCurrency:
                 {
@@ -16,7 +16,7 @@ const getAccount = async () => {
                     symbol: 'MATIC',
                     decimals: 18
                 },
-            rpcUrls: ['https://rpc-mumbai.matic.today'],
+            rpcUrls: ['https://rpc-mumbai.maticvigil.com/v1/e89672403f5ac0e38a569e65a6d97a640beb9d10'],
             blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
         }]
 
@@ -46,14 +46,14 @@ const getAccount = async () => {
 const mint = async(string_uri, price) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "")
     await ticket.methods.mintToken(string_uri, price).send({from: account[0]})
 }
 
 const buy = async(id) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "")
     console.log("the id is :", id, " contaract :", ticket)
     const price = await ticket.methods.prices(id).call()
     console.log("the price is :", price)
@@ -63,12 +63,12 @@ const buy = async(id) => {
 const putOnSale = async(id) => {
     const account = await getAccount()
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "")
     await ticket.methods.putOnSale(id).send({from: account[0]})
 }
 const sold = async(id) => {
 	window.web3 = new Web3(window.ethereum)
-    let ticket = await new window.web3.eth.Contract(Ticket.abi, "0x7D4feBc3AA60Ec597C9DDB249aB89cfc6bb0e7D0")
+    let ticket = await new window.web3.eth.Contract(Ticket.abi, "")
     const resp = await ticket.methods.sold(id).call()
     return resp
 }
@@ -84,6 +84,52 @@ const listMyToken = async () => {
     return resp.data;
 }
 
+const listToken = async(id, category) => {
+    const resp = await axios.get(`http://localhost:8080/api/token/${id}/${category}`)
+    return resp.data;
+}
+
+const listRelatedToken = async(category) => {
+    const resp = await axios.get(`http://localhost:8080/api/related/${category}`)
+    console.log(resp.data)
+    return resp.data;
+}
+
+ const createCategory = (category) => {
+    return fetch('http://localhost:8080/api/category/create', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(category)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
+const getFilteredTickets = (data) => {
+    console.log(data)
+    return fetch('http://localhost:8080/api/filter', {
+        method: "POST",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => {
+            console.log(err);
+        });
+};
+
 export{
     mint,
     listTokens,
@@ -92,5 +138,8 @@ export{
     getAccount,
     sold,
     listMyToken,
-    category
+    createCategory,
+    listToken,
+    getFilteredTickets,
+    listRelatedToken
 }

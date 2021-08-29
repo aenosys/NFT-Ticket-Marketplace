@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 100px;
-    background: white;
+    background:#212121;
 }
 
 .navbar > .navlink-container {
@@ -20,7 +20,7 @@
     font-weight: 500;
     font-size: 16px;
     line-height: 19px;
-    color: #262D27;
+    color: #e9f0ea;
 }
 
 .navbar > .auth-link > .navlink {
@@ -42,7 +42,7 @@
     line-height: 19px;
     color: #ffffff;
     padding: 10px 20px;
-    background: #457373;
+    background: #035757;
     cursor: pointer;
 }
 
