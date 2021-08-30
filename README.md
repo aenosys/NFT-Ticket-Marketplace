@@ -1,5 +1,8 @@
 # NFT-Ticket-Marketplace
 
+                                                                            NFT TICKET MARKETPLACE
+
+IT's an NFT project built using ethereum smart contracts, MERN stack & Web3JS. The project is focused to revolutionize the ticket industry by introducing NFTs with digital artworks of different events & to provide more transparency to the industry
 Steps to get started with the project
 
 install metamask and add custom rpc url from infura for Matic. Also add some test tokens from MATIC FAUCET
