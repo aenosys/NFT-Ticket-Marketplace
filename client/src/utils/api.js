@@ -16,7 +16,7 @@ const getAccount = async () => {
                     symbol: 'MATIC',
                     decimals: 18
                 },
-            rpcUrls: ['https://rpc-mumbai.maticvigil.com/v1/e89672403f5ac0e38a569e65a6d97a640beb9d10'],
+            rpcUrls: [''],
             blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
         }]
 
