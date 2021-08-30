@@ -9,10 +9,10 @@ Client:
 
 1 clone the repo
 2 place the deployed address of contracts in file utils/api.js and ABI of the contracts in ABI folder
-3 check backend server should run
-4 Do npm install
-5 start server by "npm start"
-
+3 add the rpc url myou made in utils/api.js on line no.19
+4 check backend server should run
+5 Do npm install
+6 start server by "npm start"
 
 Backend:
 
