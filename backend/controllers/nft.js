@@ -1,4 +1,5 @@
 const NFT = require("../models/nft")
+const { errorHandler } = require('../helpers/dbErrorHandler');
 
 exports.read = (req, res) => {
     NFT.find().exec((err, data) => {
